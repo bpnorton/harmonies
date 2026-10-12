@@ -6,6 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+# pycharm user settings
+*.idea/
+
+# VSCode user settings
+.vscode/
+
 # Distribution / packaging
 .Python
 build/
