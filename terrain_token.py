@@ -35,10 +35,10 @@ class TerrainToken:
     def __init__(self, type):
         self.type = TerrainType(type) # An int representing one of 6 terrain types
         # An int representing the max height it can be placed (STARTS AT 1)
-        self.max_height = terrain_type_info[self.type.value][0]
-        if len(terrain_type_info[type]) > 1:
+        self.max_height = terrain_type_info[self.type][0]
+        if len(terrain_type_info[self.type]) > 1:
             # A list of terrain types it can be placed on
-            self.placeable_on = terrain_type_info[type][1:]
+            self.placeable_on = terrain_type_info[self.type][1:]
         else:
             self.placeable_on = []
 

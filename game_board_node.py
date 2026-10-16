@@ -10,6 +10,7 @@ class GameBoardNode:
     def __init__(self, name):
         self.name = name
         self.tokens = [] # The board is empty at the start of the game
+        self.animal = None # No animals yet!
         self.neighbors = [] # TODO: when creating graph, add neighbors - should end up with a list of 6 GameBoardNodes (some None)
 
     def add_token(self, token):
@@ -26,6 +27,16 @@ class GameBoardNode:
             return True
         return False
 
+    def remove_token(self, placed_this_turn):
+        """
+        :param placed_this_turn: The game state class should keep
+        track of the hexes where tokens were placed this turn
+        :return: The removed token, if valid
+        """
+        if self.animal == None and placed_this_turn == True:
+            return self.tokens.pop(-1)
+        return None
+
     def add_animal(self, animal):
         pass # TODO: validate animal placement
 
@@ -35,5 +46,5 @@ class GameBoardNode:
             return "Hex " + string + " is empty"
         string += ":"
         for token in self.tokens:
-            string += " " + str(token.type)
+            string += " " + str(token.type.name)
         return "Hex " + string
