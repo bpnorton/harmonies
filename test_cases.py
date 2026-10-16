@@ -2,10 +2,11 @@
 Testing!
 """
 
-import game_board_node
-import terrain_token
+import game_board_node as gbn
+import terrain_token as tt
 
 if __name__ == "__main__":
-    node = game_board_node.GameBoardNode("TEST")
-    node.add_token(terrain_token.TerrainToken(0))
+    node = gbn.GameBoardNode("TEST")
+    print(node.to_string())
+    node.add_token(tt.TerrainToken(0))
     print(node.to_string())

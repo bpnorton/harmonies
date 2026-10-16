@@ -18,7 +18,7 @@ class TerrainType(Enum):
 
 
 terrain_type_info = {
-    0: [1],
+    TerrainType.WATER: [1],
     TerrainType.GRASS: [1],
     TerrainType.STONE: [3, TerrainType.STONE],
     TerrainType.WOOD: [2, TerrainType.WOOD],
@@ -33,9 +33,9 @@ class TerrainToken:
     Can have one of six types
     """
     def __init__(self, type):
-        self.type = type # An int representing one of 6 terrain types
+        self.type = TerrainType(type) # An int representing one of 6 terrain types
         # An int representing the max height it can be placed (STARTS AT 1)
-        self.max_height = terrain_type_info[type][0]
+        self.max_height = terrain_type_info[self.type.value][0]
         if len(terrain_type_info[type]) > 1:
             # A list of terrain types it can be placed on
             self.placeable_on = terrain_type_info[type][1:]
