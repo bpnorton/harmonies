@@ -6,6 +6,9 @@ Terrain Token
 from enum import Enum
 
 class TerrainType(Enum):
+    """
+    Encoding terrain type info as ints so it's easier to use
+    """
     WATER = 0
     GRASS = 1
     STONE = 2
@@ -15,20 +18,38 @@ class TerrainType(Enum):
 
 
 terrain_type_info = {
-    "water": [1],
-    "grass": [1],
-    "stone": [3, TerrainType.STONE],
-    "wood": [2, TerrainType.WOOD],
-    "leaves": [3, TerrainType.WOOD],
-    "brick": [2, TerrainType.STONE, TerrainType.WOOD, TerrainType.BRICK]
+    0: [1],
+    TerrainType.GRASS: [1],
+    TerrainType.STONE: [3, TerrainType.STONE],
+    TerrainType.WOOD: [2, TerrainType.WOOD],
+    TerrainType.LEAVES: [3, TerrainType.WOOD],
+    TerrainType.BRICK: [2, TerrainType.STONE, TerrainType.WOOD, TerrainType.BRICK]
 }
 
-class TerrainToken:
 
+class TerrainToken:
+    """
+    To be placed on the board to create habitats
+    Can have one of six types
+    """
     def __init__(self, type):
-        self.type = type # A string, e.g. "wood"
-        self.max_height = terrain_type_info[type][0] # An int representing the max height it can be placed (STARTS AT 1)
+        self.type = type # An int representing one of 6 terrain types
+        # An int representing the max height it can be placed (STARTS AT 1)
+        self.max_height = terrain_type_info[type][0]
         if len(terrain_type_info[type]) > 1:
-            self.placeable_on = terrain_type_info[type][1:] # A list of terrain types it can be placed on
+            # A list of terrain types it can be placed on
+            self.placeable_on = terrain_type_info[type][1:]
         else:
             self.placeable_on = []
+
+    def is_placeable(self, height, type_below):
+        """
+        :param height: How many tokens are already on the hex
+        :param type_below: What terrain type if any is on top
+        :return: Whether the token can be placed on the hex
+        """
+        if height == 0:
+            return True
+        if height < self.max_height and type_below in self.placeable_on:
+            return True
+        return False
