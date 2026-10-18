@@ -11,7 +11,7 @@ SCREEN_WIDTH = 1440
 SCREEN_HEIGHT = 900
 SCREEN_TITLE = "Harmonies"
 SCALE = 1.0
-BEAR_SCALE = SCALE * 0.3
+ANIMAL_SCALE = SCALE * 0.3
 
 
 
@@ -38,10 +38,20 @@ class GameWindow(arcade.Window):
         # Initialize sprites
         self.all_sprites = arcade.SpriteList()
 
-        self.bear = arcade.Sprite("Animal Sprites/GrizzlyBear.png", BEAR_SCALE)
+        self.bear = arcade.Sprite("Animal Sprites/GrizzlyBear.png", ANIMAL_SCALE)
         self.bear.bottom = 10
         self.bear.right = self.width - 10
         self.all_sprites.append(self.bear)
+
+        self.flamingo = arcade.Sprite("Animal Sprites/Flamingo.png", ANIMAL_SCALE)
+        self.flamingo.top = self.height - 10
+        self.flamingo.right = self.width - 10
+        self.all_sprites.append(self.flamingo)
+
+        self.alligator = arcade.Sprite("Animal Sprites/Alligator.png", ANIMAL_SCALE)
+        self.alligator.bottom = 10
+        self.alligator.left = 10
+        self.all_sprites.append(self.alligator)
 
 
 
