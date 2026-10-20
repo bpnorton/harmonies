@@ -61,10 +61,16 @@ class GameWindow(arcade.Window):
         self.all_sprites.draw()
         self.token_spots.draw()
 
+    def on_mouse_release(self, x, y, button, modifiers):
+        pass
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        pass
+
     def card_shadows(self):
         card_shadows = arcade.shape_list.ShapeElementList()
         # To change card shadow dimensions, spacing, color, change these values
-        color = (185, 170, 155, 255)
+        color = (195, 180, 165, 255)
         card_width = 160
         card_height = 240
         radius = 15
@@ -95,10 +101,22 @@ class GameWindow(arcade.Window):
 
         return card_shadows
 
+    def board_outlines(self):
+        board_outline = arcade.shape_list.ShapeElementList()
+        # To change token dimensions, spacing, color, change these values
+        color = (195, 180, 165, 255)
+        big_radius = 200
+        radius = 15
+        # Create the shapes
+        x = 950
+        y = 500
+        big_circle = arcade.shape_list.create_ellipse(x, y, big_radius, big_radius, color)
+        board_outline.append(big_circle)
+
     def token_spots(self):
         token_spots = arcade.shape_list.ShapeElementList()
         # To change token dimensions, spacing, color, change these values
-        color = (185, 170, 155, 255)
+        color = (195, 180, 165, 255)
         big_radius = 200
         radius = 15
         # Create the shapes

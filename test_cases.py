@@ -42,13 +42,37 @@ def test_terrain_token():
 
     return passed
 
+def test_game_board_node():
+    passed = True
+
+    node1 = gbn.GameBoardNode("1")
+    node2 = gbn.GameBoardNode("2")
+    if node1.neighbors != [None,None,None,None,None,None]:
+        print("FAILED TERRAIN TOKEN TEST 1: Initialize empty neighbor list")
+        passed = False
+    node1.add_neighbor(node2, 0)
+    node2.add_neighbor(node1, 3)
+    # Test adding neighbors
+    if node1.neighbors[0] != node2:
+        print("FAILED GAME BOARD NODE TEST 2: Add neighbor")
+        passed = False
+
+    return passed
+
 
 
 if __name__ == "__main__":
     passed = True
+
     if test_terrain_token():
         print("PASSED TERRAIN TOKEN TESTS")
     else:
         passed = False
+
+    if test_game_board_node():
+        print("PASSED GAME BOARD NODE TESTS")
+    else:
+        passed = False
+
     if passed:
         print("PASSED ALL TESTS!")

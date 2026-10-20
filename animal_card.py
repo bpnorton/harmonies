@@ -12,3 +12,4 @@ class AnimalCard:
         self.animal = animal # An Animal object
         self.animal_cubes = []
         for val in self.point_values:
+            pass

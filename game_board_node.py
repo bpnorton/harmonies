@@ -11,7 +11,7 @@ class GameBoardNode:
         self.name = name
         self.tokens = [] # The board is empty at the start of the game
         self.animal = None # No animals yet!
-        self.neighbors = [] # TODO: when creating graph, add neighbors - should end up with a list of 6 GameBoardNodes (some None)
+        self.neighbors = [None for i in range(6)]
 
     def add_token(self, token):
         """
@@ -39,6 +39,9 @@ class GameBoardNode:
 
     def add_animal(self, animal):
         pass # TODO: validate animal placement
+
+    def add_neighbor(self, neighbor, direction):
+        self.neighbors[direction] = neighbor
 
     def to_string(self):
         string = self.name
