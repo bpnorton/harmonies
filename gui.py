@@ -63,15 +63,17 @@ class GameWindow(arcade.Window):
     def on_draw(self):
         self.clear()
         self.card_shadows.draw()
-        self.all_sprites.draw()
         self.token_spots.draw()
         self.board_hexes.draw()
+        self.all_sprites.draw()
 
     def on_mouse_release(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
             if len(self.holding) == 0:
                 for sprite in self.clickable_sprites:
                     if sprite.collides_with_point((x, y)):
+                        sprite.center_x = x
+                        sprite.center_y = y
                         self.holding.append(sprite)
             else:
                 for sprite in self.holding:
