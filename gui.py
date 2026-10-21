@@ -50,8 +50,8 @@ class GameWindow(arcade.Window):
         self.all_sprites.append(self.flamingo)
 
         self.alligator = arcade.Sprite("Animal Sprites/Alligator.png", ANIMAL_SCALE)
-        self.alligator.bottom = 10
-        self.alligator.left = 10
+        self.alligator.bottom = self.height/2
+        self.alligator.right = self.width - 10
         self.all_sprites.append(self.alligator)
 
 
@@ -74,9 +74,9 @@ class GameWindow(arcade.Window):
         # To change card shadow dimensions, spacing, color, change these values
         color = (195, 180, 165, 255)
         card_width = 160
-        card_height = 240
+        card_height = 220
         radius = 15
-        spacing = 32
+        spacing = 20
         # Create the shapes
         y = self.height - (card_height//2 + spacing)
         for x in range(card_width//2 + spacing, 4*(card_width + spacing) + card_width//2, card_width + spacing):
@@ -100,7 +100,6 @@ class GameWindow(arcade.Window):
             lower_right = arcade.shape_list.create_ellipse_filled(
                 x + card_width//2 - radius, y - card_height//2 + radius, 2*radius, 2*radius, color)
             card_shadows.append(lower_right)
-
         return card_shadows
 
     def board_hexes(self):
@@ -109,12 +108,12 @@ class GameWindow(arcade.Window):
         # To change token dimensions, spacing, color, change these values
         color = (210, 210, 190, 255)
         color_sequence = [color, color, color]
-        hex_center_offset = 74
-        hex_size = 72
+        hex_center_offset = 70
+        hex_size = hex_center_offset - 2
         root3 = math.sqrt(3)
         # Create the shapes
-        initial_x = 104
-        initial_y = 550
+        initial_x = 90
+        initial_y = 570
         for node in self.game_board.nodes:
             x = initial_x + 2*hex_center_offset*node.coordinates[0] + hex_center_offset*node.coordinates[1]
             y = initial_y - hex_center_offset*node.coordinates[1]*root3
