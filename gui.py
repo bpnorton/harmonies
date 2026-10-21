@@ -5,14 +5,14 @@ oh boy here we go...
 """
 
 import arcade
-from arcade import draw_circle_filled
+import game_board
+import math
 
 SCREEN_WIDTH = 1440
 SCREEN_HEIGHT = 900
 SCREEN_TITLE = "Harmonies"
 SCALE = 1.0
 ANIMAL_SCALE = SCALE * 0.3
-
 
 
 class GameWindow(arcade.Window):
@@ -33,6 +33,7 @@ class GameWindow(arcade.Window):
         # Initialize static elements
         self.card_shadows = self.card_shadows()
         self.token_spots = self.token_spots()
+        self.board_hexes = self.board_hexes()
 
 
         # Initialize sprites
@@ -60,6 +61,7 @@ class GameWindow(arcade.Window):
         self.card_shadows.draw()
         self.all_sprites.draw()
         self.token_spots.draw()
+        self.board_hexes.draw()
 
     def on_mouse_release(self, x, y, button, modifiers):
         pass
@@ -74,7 +76,7 @@ class GameWindow(arcade.Window):
         card_width = 160
         card_height = 240
         radius = 15
-        spacing = 30
+        spacing = 32
         # Create the shapes
         y = self.height - (card_height//2 + spacing)
         for x in range(card_width//2 + spacing, 4*(card_width + spacing) + card_width//2, card_width + spacing):
@@ -101,17 +103,30 @@ class GameWindow(arcade.Window):
 
         return card_shadows
 
-    def board_outlines(self):
-        board_outline = arcade.shape_list.ShapeElementList()
+    def board_hexes(self):
+        self.game_board = game_board.GameBoard()
+        board_hexes = arcade.shape_list.ShapeElementList()
         # To change token dimensions, spacing, color, change these values
-        color = (195, 180, 165, 255)
-        big_radius = 200
-        radius = 15
+        color = (210, 210, 190, 255)
+        color_sequence = [color, color, color]
+        hex_center_offset = 74
+        hex_size = 72
+        root3 = math.sqrt(3)
         # Create the shapes
-        x = 950
-        y = 500
-        big_circle = arcade.shape_list.create_ellipse(x, y, big_radius, big_radius, color)
-        board_outline.append(big_circle)
+        initial_x = 104
+        initial_y = 550
+        for node in self.game_board.nodes:
+            x = initial_x + 2*hex_center_offset*node.coordinates[0] + hex_center_offset*node.coordinates[1]
+            y = initial_y - hex_center_offset*node.coordinates[1]*root3
+            # Build a hex out of triangles
+            edge_points = [(x - hex_size,y - hex_size/root3), (x - hex_size, y + hex_size/root3),
+                           (x, y + 2*hex_size/root3), (x + hex_size, y + hex_size/root3),
+                           (x + hex_size, y - hex_size/root3), (x, y - 2*hex_size/root3)]
+            for i in range(6):
+                triangle = arcade.shape_list.create_triangles_filled_with_colors(
+                    [(x, y), edge_points[i], edge_points[(i + 1)%6]], color_sequence)
+                board_hexes.append(triangle)
+        return board_hexes
 
     def token_spots(self):
         token_spots = arcade.shape_list.ShapeElementList()
