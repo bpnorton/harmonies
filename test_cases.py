@@ -59,6 +59,12 @@ def test_game_board_node():
 
     return passed
 
+def test_game_state():
+    passed = True
+
+    node1 = gbn.GameBoardNode("1")
+    
+
 
 
 if __name__ == "__main__":
