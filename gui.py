@@ -7,6 +7,7 @@ oh boy here we go...
 import arcade
 import game_board
 import math
+import time
 
 SCREEN_WIDTH = 1440
 SCREEN_HEIGHT = 900
@@ -38,18 +39,21 @@ class GameWindow(arcade.Window):
 
         # Initialize sprites
         self.all_sprites = arcade.SpriteList()
+        self.clickable_sprites = arcade.SpriteList()
+        self.holding = arcade.SpriteList()
 
-        self.bear = arcade.Sprite("Animal Sprites/GrizzlyBear.png", ANIMAL_SCALE)
+        self.bear = arcade.Sprite("Sprites/GrizzlyBear.png", ANIMAL_SCALE)
         self.bear.bottom = 10
         self.bear.right = self.width - 10
         self.all_sprites.append(self.bear)
+        self.clickable_sprites.append(self.bear)
 
-        self.flamingo = arcade.Sprite("Animal Sprites/Flamingo.png", ANIMAL_SCALE)
+        self.flamingo = arcade.Sprite("Sprites/Flamingo.png", ANIMAL_SCALE)
         self.flamingo.top = self.height - 10
         self.flamingo.right = self.width - 10
         self.all_sprites.append(self.flamingo)
 
-        self.alligator = arcade.Sprite("Animal Sprites/Alligator.png", ANIMAL_SCALE)
+        self.alligator = arcade.Sprite("Sprites/Alligator.png", ANIMAL_SCALE)
         self.alligator.bottom = self.height/2
         self.alligator.right = self.width - 10
         self.all_sprites.append(self.alligator)
@@ -64,10 +68,20 @@ class GameWindow(arcade.Window):
         self.board_hexes.draw()
 
     def on_mouse_release(self, x, y, button, modifiers):
-        pass
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            if len(self.holding) == 0:
+                for sprite in self.clickable_sprites:
+                    if sprite.collides_with_point((x, y)):
+                        self.holding.append(sprite)
+            else:
+                for sprite in self.holding:
+                    self.holding.remove(sprite)
+
 
     def on_mouse_motion(self, x, y, dx, dy):
-        pass
+        for sprite in self.holding:
+            sprite.center_x = x
+            sprite.center_y = y
 
     def card_shadows(self):
         card_shadows = arcade.shape_list.ShapeElementList()
@@ -78,7 +92,7 @@ class GameWindow(arcade.Window):
         radius = 15
         spacing = 20
         # Create the shapes
-        y = self.height - (card_height//2 + spacing)
+        y = self.height - (card_height//2 + spacing - 5)
         for x in range(card_width//2 + spacing, 4*(card_width + spacing) + card_width//2, card_width + spacing):
             # Rectangles
             wide_rect = arcade.shape_list.create_rectangle_filled(
@@ -113,7 +127,7 @@ class GameWindow(arcade.Window):
         root3 = math.sqrt(3)
         # Create the shapes
         initial_x = 90
-        initial_y = 570
+        initial_y = 575
         for node in self.game_board.nodes:
             x = initial_x + 2*hex_center_offset*node.coordinates[0] + hex_center_offset*node.coordinates[1]
             y = initial_y - hex_center_offset*node.coordinates[1]*root3
