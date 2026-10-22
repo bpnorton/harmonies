@@ -5,14 +5,15 @@ oh boy here we go...
 """
 
 import arcade
-from arcade import draw_circle_filled
+import game_board
+import math
+import time
 
 SCREEN_WIDTH = 1440
 SCREEN_HEIGHT = 900
 SCREEN_TITLE = "Harmonies"
 SCALE = 1.0
 ANIMAL_SCALE = SCALE * 0.3
-
 
 
 class GameWindow(arcade.Window):
@@ -33,24 +34,28 @@ class GameWindow(arcade.Window):
         # Initialize static elements
         self.card_shadows = self.card_shadows()
         self.token_spots = self.token_spots()
+        self.board_hexes = self.board_hexes()
 
 
         # Initialize sprites
         self.all_sprites = arcade.SpriteList()
+        self.clickable_sprites = arcade.SpriteList()
+        self.holding = arcade.SpriteList()
 
-        self.bear = arcade.Sprite("Animal Sprites/GrizzlyBear.png", ANIMAL_SCALE)
+        self.bear = arcade.Sprite("Sprites/GrizzlyBear.png", ANIMAL_SCALE)
         self.bear.bottom = 10
         self.bear.right = self.width - 10
         self.all_sprites.append(self.bear)
+        self.clickable_sprites.append(self.bear)
 
-        self.flamingo = arcade.Sprite("Animal Sprites/Flamingo.png", ANIMAL_SCALE)
+        self.flamingo = arcade.Sprite("Sprites/Flamingo.png", ANIMAL_SCALE)
         self.flamingo.top = self.height - 10
         self.flamingo.right = self.width - 10
         self.all_sprites.append(self.flamingo)
 
-        self.alligator = arcade.Sprite("Animal Sprites/Alligator.png", ANIMAL_SCALE)
-        self.alligator.bottom = 10
-        self.alligator.left = 10
+        self.alligator = arcade.Sprite("Sprites/Alligator.png", ANIMAL_SCALE)
+        self.alligator.bottom = self.height/2
+        self.alligator.right = self.width - 10
         self.all_sprites.append(self.alligator)
 
 
@@ -58,25 +63,38 @@ class GameWindow(arcade.Window):
     def on_draw(self):
         self.clear()
         self.card_shadows.draw()
-        self.all_sprites.draw()
         self.token_spots.draw()
+        self.board_hexes.draw()
+        self.all_sprites.draw()
 
     def on_mouse_release(self, x, y, button, modifiers):
-        pass
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            if len(self.holding) == 0:
+                for sprite in self.clickable_sprites:
+                    if sprite.collides_with_point((x, y)):
+                        sprite.center_x = x
+                        sprite.center_y = y
+                        self.holding.append(sprite)
+            else:
+                for sprite in self.holding:
+                    self.holding.remove(sprite)
+
 
     def on_mouse_motion(self, x, y, dx, dy):
-        pass
+        for sprite in self.holding:
+            sprite.center_x = x
+            sprite.center_y = y
 
     def card_shadows(self):
         card_shadows = arcade.shape_list.ShapeElementList()
         # To change card shadow dimensions, spacing, color, change these values
         color = (195, 180, 165, 255)
         card_width = 160
-        card_height = 240
+        card_height = 220
         radius = 15
-        spacing = 30
+        spacing = 20
         # Create the shapes
-        y = self.height - (card_height//2 + spacing)
+        y = self.height - (card_height//2 + spacing - 5)
         for x in range(card_width//2 + spacing, 4*(card_width + spacing) + card_width//2, card_width + spacing):
             # Rectangles
             wide_rect = arcade.shape_list.create_rectangle_filled(
@@ -98,20 +116,32 @@ class GameWindow(arcade.Window):
             lower_right = arcade.shape_list.create_ellipse_filled(
                 x + card_width//2 - radius, y - card_height//2 + radius, 2*radius, 2*radius, color)
             card_shadows.append(lower_right)
-
         return card_shadows
 
-    def board_outlines(self):
-        board_outline = arcade.shape_list.ShapeElementList()
+    def board_hexes(self):
+        self.game_board = game_board.GameBoard()
+        board_hexes = arcade.shape_list.ShapeElementList()
         # To change token dimensions, spacing, color, change these values
-        color = (195, 180, 165, 255)
-        big_radius = 200
-        radius = 15
+        color = (210, 210, 190, 255)
+        color_sequence = [color, color, color]
+        hex_center_offset = 70
+        hex_size = hex_center_offset - 2
+        root3 = math.sqrt(3)
         # Create the shapes
-        x = 950
-        y = 500
-        big_circle = arcade.shape_list.create_ellipse(x, y, big_radius, big_radius, color)
-        board_outline.append(big_circle)
+        initial_x = 90
+        initial_y = 575
+        for node in self.game_board.nodes:
+            x = initial_x + 2*hex_center_offset*node.coordinates[0] + hex_center_offset*node.coordinates[1]
+            y = initial_y - hex_center_offset*node.coordinates[1]*root3
+            # Build a hex out of triangles
+            edge_points = [(x - hex_size,y - hex_size/root3), (x - hex_size, y + hex_size/root3),
+                           (x, y + 2*hex_size/root3), (x + hex_size, y + hex_size/root3),
+                           (x + hex_size, y - hex_size/root3), (x, y - 2*hex_size/root3)]
+            for i in range(6):
+                triangle = arcade.shape_list.create_triangles_filled_with_colors(
+                    [(x, y), edge_points[i], edge_points[(i + 1)%6]], color_sequence)
+                board_hexes.append(triangle)
+        return board_hexes
 
     def token_spots(self):
         token_spots = arcade.shape_list.ShapeElementList()

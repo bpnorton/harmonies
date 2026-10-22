@@ -7,11 +7,12 @@ import terrain_token
 
 class GameBoardNode:
 
-    def __init__(self, name):
+    def __init__(self, name, coordinates):
         self.name = name
         self.tokens = [] # The board is empty at the start of the game
         self.animal = None # No animals yet!
         self.neighbors = [None for i in range(6)]
+        self.coordinates = coordinates # Axial coordinates - a 2-tuple of ints describing where on the board it is
 
     def add_token(self, token):
         """
@@ -41,6 +42,11 @@ class GameBoardNode:
         pass # TODO: validate animal placement
 
     def add_neighbor(self, neighbor, direction):
+        """
+        :param neighbor: The neighboring hex
+        :param direction: An integer in range(6), encoding the
+        direction of that hex (West = 0, increasing clockwise)
+        """
         self.neighbors[direction] = neighbor
 
     def to_string(self):
