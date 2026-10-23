@@ -5,7 +5,7 @@ Game board node (represents a hexagonal piece of the game board)
 
 import terrain_token
 
-class GameBoardNode:
+class Hex:
 
     def __init__(self, name, coordinates):
         self.name = name

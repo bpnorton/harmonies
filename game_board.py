@@ -2,7 +2,7 @@
 Logical representation of game board
 """
 
-import game_board_node as gbn
+import hex
 
 COORDINATES = [(0,0),(1,0),(2,0),(3,0),(4,0),(0,1),(1,1),(2,1),(3,1),
                (-1,2),(0,2),(1,2),(2,2),(3,2),(-1,3),(0,3),(1,3),(2,3),
@@ -19,7 +19,7 @@ class GameBoard:
     def __init__(self):
         self.nodes = []
         for i in range(23):
-            self.nodes.append(gbn.GameBoardNode("n"+str(i), COORDINATES[i]))
+            self.nodes.append(hex.Hex("n"+str(i), COORDINATES[i]))
 
         # Add edges: 0 = West, increasing clockwise until 5 = SW
         # Horizontals

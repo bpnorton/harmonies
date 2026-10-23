@@ -2,12 +2,12 @@
 Testing!
 """
 
-import game_board_node as gbn
+import hex
 import terrain_token as tt
 
 def test_terrain_token():
     passed = True
-    node = gbn.GameBoardNode("1")
+    node = hex.Hex("1", (0,0))
     water_token = tt.TerrainToken(0)
     wood_token1 = tt.TerrainToken(3)
     node.add_token(water_token)
@@ -42,11 +42,11 @@ def test_terrain_token():
 
     return passed
 
-def test_game_board_node():
+def test_hex():
     passed = True
 
-    node1 = gbn.GameBoardNode("1")
-    node2 = gbn.GameBoardNode("2")
+    node1 = hex.Hex("1", (0,0))
+    node2 = hex.Hex("2", (1,0))
     if node1.neighbors != [None,None,None,None,None,None]:
         print("FAILED TERRAIN TOKEN TEST 1: Initialize empty neighbor list")
         passed = False
@@ -62,7 +62,7 @@ def test_game_board_node():
 def test_game_state():
     passed = True
 
-    node1 = gbn.GameBoardNode("1")
+    node1 = hex.Hex("1", (0,0))
     
 
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     else:
         passed = False
 
-    if test_game_board_node():
+    if test_hex():
         print("PASSED GAME BOARD NODE TESTS")
     else:
         passed = False
