@@ -52,11 +52,13 @@ class GameWindow(arcade.Window):
         self.flamingo.top = self.height - 10
         self.flamingo.right = self.width - 10
         self.all_sprites.append(self.flamingo)
+        self.clickable_sprites.append(self.flamingo)
 
         self.alligator = arcade.Sprite("Sprites/Alligator.png", ANIMAL_SCALE)
         self.alligator.bottom = self.height/2
         self.alligator.right = self.width - 10
         self.all_sprites.append(self.alligator)
+        self.clickable_sprites.append(self.alligator)
 
 
 
