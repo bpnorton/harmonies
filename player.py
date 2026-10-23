@@ -6,13 +6,13 @@ import gui
 import animal_card
 
 class Player:
-    def __init__(self, name):
+    def __init__(self, name, deck, tokens):
         # name of the player
         self.name = name
-        # the list of cards in the deck
-        self.card_deck = [] #TODO: Replace with list of all animal objects
-        # a list of tokens the player currently has
-        self.current_tokens = [] # player starts with 0 tokens
+        # the list of cards in the deck (from game_state)
+        self.deck = deck
+        # a list of tokens the player currently has (from game_state)
+        self.tokens = tokens
         # a list of cards the player has not completed
         self.uncompleted_cards = [] # player starts with no cards
         # a list of cards the player has completed
@@ -21,11 +21,11 @@ class Player:
         self.game_window - gui.GameWindow()
 
     # player takes a card from the deck
-    def take_card(self, card_deck):
+    def take_card(self, deck):
         pass
 
     # player takes tokens from wheel and replaces them
-    def grab_tokens(self, current_tokens):
+    def grab_tokens(self, tokens):
         pass
 
     # player places cubes on board
