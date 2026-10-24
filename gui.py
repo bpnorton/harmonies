@@ -132,9 +132,9 @@ class GameWindow(arcade.Window):
         # Create the shapes
         initial_x = 90
         initial_y = 575
-        for node in self.game_board.nodes:
-            x = initial_x + 2*hex_center_offset*node.coordinates[0] + hex_center_offset*node.coordinates[1]
-            y = initial_y - hex_center_offset*node.coordinates[1]*root3
+        for hex in self.game_board.hexes:
+            x = initial_x + 2*hex_center_offset*hex.coordinates[0] + hex_center_offset*hex.coordinates[1]
+            y = initial_y - hex_center_offset*hex.coordinates[1]*root3
             # Build a hex out of triangles
             edge_points = [(x - hex_size,y - hex_size/root3), (x - hex_size, y + hex_size/root3),
                            (x, y + 2*hex_size/root3), (x + hex_size, y + hex_size/root3),
