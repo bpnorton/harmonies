@@ -7,7 +7,7 @@ import random
 
 # Game Loop
 
-class game_loop:
+class GameLoop:
     def __init__(self, players):
         # a player object
         self.player = players
