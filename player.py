@@ -4,6 +4,7 @@ Player
 
 import gui
 import animal_card
+import game_state
 
 class Player:
     def __init__(self, name, deck, tokens):
