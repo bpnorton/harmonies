@@ -7,7 +7,6 @@ oh boy here we go...
 import arcade
 import game_board
 import math
-import time
 
 SCREEN_WIDTH = 1440
 SCREEN_HEIGHT = 900
