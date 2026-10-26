@@ -1,0 +1,8 @@
+{
+    "animals": [
+        {
+            "name": "Penguin",
+            "terrain_configuration": []
+        }
+    ]
+}
