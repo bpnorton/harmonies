@@ -65,8 +65,6 @@ def test_game_state():
     node1 = hex.Hex("1", (0,0))
     
 
-
-
 if __name__ == "__main__":
     passed = True
 
