@@ -48,6 +48,16 @@ class GameLoop:
     # add tokens to pentagon board thing
     def fill_pentagon(self, tokens):
         random.shuffle(tokens)
+        token_pile = []
+        five_token_piles = []
+
+        for _ in range(0, 5):
+            for _ in range(0, 3):
+                token_pile.append(tokens.pop())
+            five_token_piles.append(token_pile)
+
+        return five_token_piles
+        
 
     # fill deck with cards allowed in game
     def fill_deck(self, deck):
