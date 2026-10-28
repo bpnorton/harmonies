@@ -4,6 +4,7 @@ The Game State
 
 import terrain_token
 import random
+import scoring
 
 # Game Loop
 
@@ -73,8 +74,7 @@ class GameLoop:
 
     # called at end of game to sum up totals
     def score_points(self, score_lst):
-        # call score.py!
-        pass
+        scoring.score_game()
 
     # what happens when no tokens are left or no spaces on the board are left
     def end_game(self, tokens, board_spaces):
