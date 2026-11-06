@@ -2,13 +2,13 @@
 The Game State
 """
 
-import json
 import terrain_token
 import random
+import scoring
 from animal_card import AnimalCard
 from animal import Animal
-
 from terrain_configuration import TerrainConfiguration, TerrainPattern
+import json
 
 # Game Loop
 
@@ -53,6 +53,16 @@ class GameLoop:
     # add tokens to pentagon board thing
     def fill_pentagon(self, tokens):
         random.shuffle(tokens)
+        token_pile = []
+        five_token_piles = []
+
+        for _ in range(0, 5):
+            for _ in range(0, 3):
+                token_pile.append(tokens.pop())
+            five_token_piles.append(token_pile)
+
+        return five_token_piles
+        
 
     # fill deck with cards allowed in game
     def fill_deck(self, deck):
@@ -70,7 +80,6 @@ class GameLoop:
                 animal_card = AnimalCard(tuple(point_values), built_animal)
                 deck.append(animal_card)
 
-
     # uses current player and goes through steps of a turn
     def current_turn(self, player):
         pass
@@ -81,8 +90,7 @@ class GameLoop:
 
     # called at end of game to sum up totals
     def score_points(self, score_lst):
-        # call score.py!
-        pass
+        scoring.score_game()
 
     # what happens when no tokens are left or no spaces on the board are left
     def end_game(self, tokens, board_spaces):
