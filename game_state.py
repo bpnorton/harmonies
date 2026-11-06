@@ -68,7 +68,6 @@ class GameLoop:
                 terrain_config = TerrainConfiguration(pattern, required_tokens)
                 built_animal = Animal(name, sprite_img, terrain_config)
                 animal_card = AnimalCard(tuple(point_values), built_animal)
-                print(tuple(point_values))
                 deck.append(animal_card)
 
 
