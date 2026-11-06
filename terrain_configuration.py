@@ -5,11 +5,12 @@ Create terrain configurations for animal habitats and other structures.
 # TODO: test cases!!! this is all unvalidated so far
 # TODO: Pylint
 # TODO: Consider the river?
-# TODO: Consider using a dictionary for the pattern, to name each position rather than relying on arbitrary index orders.
+# TODO: Consider using a dictionary for the pattern, to name
+# each position rather than relying on arbitrary index orders.
 
+from enum import Enum, auto
 from terrain_token import TerrainToken
 from hex import Hex
-from enum import Enum, auto
 
 class TerrainPattern(Enum):
     """
@@ -34,10 +35,13 @@ class TerrainConfiguration:
         habitat should look like. The order of the list should be based on the following pattern:
         LINE2: [AnimalCube Token, Adjacent Token]
         LINE3: [AnimalCube Token, Adjacent Token, End Token]
-        DIAMOND: [AnimalCube Token, Adjacent Token 1, Adjacent Token 2, Adjacent Token 3]
-        (for DIAMOND, aside from the AnimalCube Token the order really does not matter, as all of them are the same)
+        DIAMOND: [AnimalCube Token, Adjacent Token 1,
+        Adjacent Token 2, Adjacent Token 3]
+        (for DIAMOND, aside from the AnimalCube Token 
+        the order really does not matter, as all of them are the same)
         HAT: [AnimalCube Token, Adjacent Token 1, Adjacent Token 2]
-        (for HAT, aside from the AnimalCube Token, the order really does not matter, as both of them are the same)
+        (for HAT, aside from the AnimalCube Token, 
+        the order really does not matter, as both of them are the same)
         """
         self.required_tokens = required_tokens
 
@@ -57,23 +61,31 @@ class TerrainConfiguration:
                 return self.validate_hat(target_hex)
         return False
 
-    def matches(self, hex: Hex | None, index: int):
+    def matches(self, target_hex: Hex | None, index: int):
         """
         param: hex: The hex to be checked against the required pattern
         param: index: The index of the required pattern to be checked
         """
-        return hex is not None and hex.tokens == self.required_tokens[index]
+        return target_hex is not None and target_hex.tokens == self.required_tokens[index]
 
     # TODO: add comments to explain logic for the following validations
 
     def validate_line2(self, target_hex):
+        """
+        param: target_hex: The hex for the Animal Cube to be placed on
+        return: Whether the terrain configuration for a LINE2 pattern is valid
+        """
         if self.matches(target_hex, 0):
             for neighbor in target_hex.neighbors:
                 if self.matches(neighbor, 1):
                     return True
         return False
-    
+
     def validate_line3(self, target_hex):
+        """
+        param: target_hex: The hex for the Animal Cube to be placed on
+        return: Whether the terrain configuration for a LINE3 pattern is valid
+        """
         if self.matches(target_hex, 0):
             for index, neighbor in enumerate(target_hex.neighbors):
                 if self.matches(neighbor, 1):
@@ -82,6 +94,10 @@ class TerrainConfiguration:
         return False
 
     def validate_hat(self, target_hex):
+        """
+        param: target_hex: The hex for the Animal Cube to be placed on
+        return: Whether the terrain configuration for a LINE2 pattern is valid
+        """
         if self.matches(target_hex, 0):
             for index, neighbor in enumerate(target_hex.neighbors):
                 if self.matches(neighbor, 1):
@@ -90,11 +106,14 @@ class TerrainConfiguration:
         return False
 
     def validate_diamond(self, target_hex):
+        """
+        param: target_hex: The hex for the Animal Cube to be placed on
+        return: Whether the terrain configuration for a LINE2 pattern is valid
+        """
         if self.matches(target_hex, 0):
             for index, neighbor in enumerate(target_hex.neighbors):
                 if self.matches(neighbor, 1):
-                    if (self.matches(target_hex.neighbors[(index + 1) % 6], 2) 
+                    if (self.matches(target_hex.neighbors[(index + 1) % 6], 2)
                                     and self.matches(target_hex.neighbors[(index + 2) % 6], 3)):
                         return True
         return False
-
