@@ -97,3 +97,4 @@ class TerrainConfiguration:
                                     and self.matches(target_hex.neighbors[(index + 2) % 6], 3)):
                         return True
         return False
+

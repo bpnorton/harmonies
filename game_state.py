@@ -2,8 +2,13 @@
 The Game State
 """
 
+import json
 import terrain_token
 import random
+from animal_card import AnimalCard
+from animal import Animal
+
+from terrain_configuration import TerrainConfiguration, TerrainPattern
 
 # Game Loop
 
@@ -51,7 +56,21 @@ class GameLoop:
 
     # fill deck with cards allowed in game
     def fill_deck(self, deck):
-        pass # import JSON file!!!
+        with open("animal.json", "r") as f:
+            data = json.load(f)
+
+            for animal in data["animals"]:
+                point_values = animal["point_values"]
+                name = animal["name"]
+                pattern = animal["pattern"]
+                required_tokens = animal["required_tokens"]
+                sprite_img = animal["sprite_img"]
+                terrain_config = TerrainConfiguration(pattern, required_tokens)
+                built_animal = Animal(name, sprite_img, terrain_config)
+                animal_card = AnimalCard(tuple(point_values), built_animal)
+                print(tuple(point_values))
+                deck.append(animal_card)
+
 
     # uses current player and goes through steps of a turn
     def current_turn(self, player):
