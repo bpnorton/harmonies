@@ -4,6 +4,10 @@ Testing!
 
 import hex
 import terrain_token as tt
+import terrain_configuration as tc
+import animal_card
+import animal
+import animal_cube
 
 def test_terrain_token():
     passed = True
@@ -63,10 +67,38 @@ def test_game_state():
     passed = True
 
     node1 = hex.Hex("1", (0,0))
-    
+
+def test_terrain_configuration():
+    passed = True
+
+    hare = animal_card.AnimalCard(animal.Animal('Hare', 'NA',
+                                 tc.TerrainConfiguration(tc.TerrainPattern.LINE3, [[1], [1], [5, 5]])), (6, 11, 15))
+    node1 = hex.Hex("1", (0,0))
+    node2 = hex.Hex("2", (1,0))
+    node3 = hex.Hex("3", (2,0))
+    grass_token1 = tt.TerrainToken(1)
+    grass_token2 = tt.TerrainToken(1)
+    brick_token1 = tt.TerrainToken(5)
+    brick_token2 = tt.TerrainToken(5)
+    node1.add_token(grass_token1)
+    node2.add_token(grass_token2)
+    node3.add_token(brick_token1)
+    node3.add_token(brick_token2)
+    node1.add_neighbor(node2, 0)
+    node2.add_neighbor(node3, 0)
+    if (hare.animal.terrain_config.validate(node1)) == False:
+        print("FAILED TERRAIN CONFIGURATION NODE TEST 1: LINE3 CONFIGURATION")
+        passed = False
+        
+    return passed
 
 if __name__ == "__main__":
     passed = True
+
+    if test_terrain_configuration():
+        print("PASSED TERRAIN CONFIGURATION TESTS")
+    else:
+        passed = False
 
     if test_terrain_token():
         print("PASSED TERRAIN TOKEN TESTS")

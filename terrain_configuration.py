@@ -20,6 +20,7 @@ class TerrainPattern(Enum):
     LINE3 = auto()
     DIAMOND = auto()
     HAT = auto()
+    TRIANGLE = auto()
 
 
 class TerrainConfiguration:
@@ -59,6 +60,8 @@ class TerrainConfiguration:
                 return self.validate_diamond(target_hex)
             case TerrainPattern.HAT:
                 return self.validate_hat(target_hex)
+            case TerrainPattern.TRIANGLE:
+                return self.validate_triangle(target_hex)
         return False
 
     def matches(self, target_hex: Hex | None, index: int):
@@ -66,7 +69,7 @@ class TerrainConfiguration:
         param: hex: The hex to be checked against the required pattern
         param: index: The index of the required pattern to be checked
         """
-        return target_hex is not None and target_hex.tokens == self.required_tokens[index]
+        return target_hex is not None and [token.type.value for token in target_hex.tokens] == self.required_tokens[index]
 
     # TODO: add comments to explain logic for the following validations
 
@@ -117,3 +120,12 @@ class TerrainConfiguration:
                                     and self.matches(target_hex.neighbors[(index + 2) % 6], 3)):
                         return True
         return False
+
+    def validate_triangle(self, target_hex):
+        if self.matches(target_hex, 0):
+            for index, neighbor in enumerate(target_hex.neighbors):
+                if self.matches(neighbor, 1):
+                    if (self.matches(target_hex.neighbors[(index + 2) % 6], 2)):
+                        return True
+        return False
+
