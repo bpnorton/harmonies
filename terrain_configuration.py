@@ -2,12 +2,6 @@
 Create terrain configurations for animal habitats and other structures.
 """
 
-# TODO: test cases!!! this is all unvalidated so far
-# TODO: Pylint
-# TODO: Consider the river?
-# TODO: Consider using a dictionary for the pattern, to name
-# each position rather than relying on arbitrary index orders.
-
 from enum import Enum, auto
 from terrain_token import TerrainToken
 from hex import Hex
@@ -69,7 +63,8 @@ class TerrainConfiguration:
         param: hex: The hex to be checked against the required pattern
         param: index: The index of the required pattern to be checked
         """
-        return target_hex is not None and [token.type.value for token in target_hex.tokens] == self.required_tokens[index]
+        return (target_hex is not None
+        and [token.type.value for token in target_hex.tokens] == self.required_tokens[index])
 
     # TODO: add comments to explain logic for the following validations
 
@@ -122,10 +117,13 @@ class TerrainConfiguration:
         return False
 
     def validate_triangle(self, target_hex):
+        """
+        param: target_hex: The hex for the Animal Cube to be placed on
+        return: Whether the terrain configuration for a TRIANGLE pattern is valid
+        """
         if self.matches(target_hex, 0):
             for index, neighbor in enumerate(target_hex.neighbors):
                 if self.matches(neighbor, 1):
-                    if (self.matches(target_hex.neighbors[(index + 2) % 6], 2)):
+                    if self.matches(target_hex.neighbors[(index + 2) % 6], 2):
                         return True
         return False
-
