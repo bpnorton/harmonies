@@ -1,0 +1,26 @@
+{
+    "animals": [
+        {
+            "name": "Penguin",
+            "pattern": "HAT",
+            "required_tokens": [[2], [0], [0]],
+            "sprite_img": "NA",
+            "point_values": [4, 7, 9]
+        },
+        {
+            "name": "Peacock",
+            "pattern": "HAT",
+            "required_tokens": [[5, 5], [0], [0]],
+            "sprite_img": "NA",
+            "point_values": [6, 11, 14]
+        },
+        {
+            "name": "Hare",
+            "pattern": "LINE3",
+            "required_tokens": [[1], [1], [5, 5]],
+            "sprite_img": "NA",
+            "point_values": [6, 11, 15]
+        }
+
+    ]
+}
