@@ -14,4 +14,7 @@ class AnimalCard:
         for val in self.point_values:
             pass
 
-    
+    def create_animal_cubes(self):
+        for val in self.point_values:
+            cube = animal_cube.AnimalCube()
+            self.animal_cubes.append(cube)
