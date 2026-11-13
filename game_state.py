@@ -61,11 +61,14 @@ class GameLoop:
                 token_pile.append(tokens.pop())
             five_token_piles.append(token_pile)
 
+        # refill token spots after they are taken!!
+
         return five_token_piles
         
 
     # fill deck with cards allowed in game
     def fill_deck(self, deck):
+        
         with open("animal.json", "r") as f:
             data = json.load(f)
 
@@ -79,6 +82,13 @@ class GameLoop:
                 built_animal = Animal(name, sprite_img, terrain_config)
                 animal_card = AnimalCard(tuple(point_values), built_animal)
                 deck.append(animal_card)
+                random.shuffle(deck)
+
+    def fill_shop(self, deck):
+        shop = []
+        while len(shop) < 5:
+            shop.pop(deck)
+        return shop
 
     # uses current player and goes through steps of a turn
     def current_turn(self, player):
