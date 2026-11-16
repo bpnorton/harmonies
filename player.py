@@ -3,8 +3,9 @@ Player
 """
 
 import gui
-import animal_card
-import game_state
+import game_board
+# import animal_card
+# import game_state
 
 class Player:
     def __init__(self, name, deck, tokens):
@@ -19,7 +20,8 @@ class Player:
         # a list of cards the player has completed
         self.completed_cards = [] # player starts with no completed cards
 
-        self.game_window - gui.GameWindow()
+        # self.game_window = gui.GameWindow(1440, 900, "Harmonies")
+        self.game_board = game_board.GameBoard()
 
     # player takes a card from the deck
     def take_card(self, deck):
