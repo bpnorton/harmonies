@@ -46,9 +46,40 @@ def score_game(player: Player, game_board: GameBoard):
             if len(neighbor_types) >= 3:
                 total_score += 5
 
-        # score river.. trickiest part
-        # maybe use coordinates system, find difference to get length apart
-        # between two connected river tiles farthest apart from each other
+        # Score the river using coordinate distances apart
+
+        if tokens == [0]:
+            water_coordinates = [hex.coordinates]
+            water_tokens = [hex]
+            for water_token in water_tokens:
+                for neighbor in water_token.neighbors:
+                    if neighbor.type.value == [0] and neighbor.coordinates not in water_coordinates:
+                        water_tokens.append(neighbor)
+                        water_coordinates.append(neighbor.coordinates)
+                    water_tokens.remove(water_token)
+
+            for coords1 in water_coordinates:
+                for coords2 in water_coordinates:
+                    distance_apart = abs(coords1[0] - coords2[0]) + abs(coords1[1] - coords2[1])
+                    longest_river = max(longest_river, distance_apart)
+                    river_pair = (coords1, coords2)
+
+        if longest_river == 2:
+            total_score += 2
+        elif longest_river == 3:
+            total_score += 5
+        elif longest_river == 4:
+            total_score += 8
+        elif longest_river == 5:
+            total_score += 11
+        elif longest_river == 6:
+            total_score += 15
+        elif longest_river >= 7:
+            total_score += 15 + ((longest_river - 6) * 4)
+
+            
+
+
 
 
 
